@@ -1,0 +1,19 @@
+:root {
+  --cl-dark: 0, 0%, 22%;
+  --cl-body: 47, 100%, 67%;
+  --cl-white: 44, 100%, 96%;
+}
+
+.calculator {
+  background-color: hsl(var(--cl-body));
+  color: hsl(var(--cl-dark));
+}
+
+.calc__heading {
+  font-size: 3rem;
+}
+
+.calc__window {
+  background-color: hsl(var(--cl-white));
+  font-size: 2rem;
+}
