@@ -9,12 +9,11 @@ import {
 
 import "./design.styles.css";
 
-const Calculator = () => {
-  const count = useSelector((state) => state.counter.value);
-  const dispatch = useDispatch();
+const Design = ({ result }) => {
+  // const count = useSelector((state) => state.counter.value);
+  // const dispatch = useDispatch();
   // console.log(count);
   console.log("calc go click");
-  console.log(1 + -1);
 
   return (
     <div className="container">
@@ -23,44 +22,75 @@ const Calculator = () => {
 
         <div className="calc__window">
           <div className="window__previous">prev</div>
-          <div className="window__current">{count}</div>
+          <div className="window__current">00</div>
         </div>
 
         <div className="calc__btns">
-          <button className="btn">C</button>
-          <button className="btn">()</button>
-          <button className="btn">&#x25;</button>
-          <button className="btn">&#xf7;</button>
-
-          <button className="btn">7</button>
-          <button className="btn">8</button>
-          <button className="btn">9</button>
-          <button className="btn">&#xd7;</button>
-
-          <button className="btn">4</button>
-          <button className="btn">5</button>
-          <button className="btn">6</button>
-          <button
-            className="btn"
-            aria-label="decrement value"
-            onClick={() => dispatch(decrement())}
-          >
-            &#x2212;
+          <button name="C" className="btn">
+            C
+          </button>
+          <button name="()" className="btn">
+            ()
+          </button>
+          <button name="%" className="btn">
+            %
+          </button>
+          <button name="÷" className="btn">
+            ÷
           </button>
 
-          <button className="btn">1</button>
-          <button className="btn">2</button>
-          <button className="btn">3</button>
-          <button className="btn">&#x2b;</button>
+          <button name="" className="btn">
+            7
+          </button>
+          <button name="" className="btn">
+            9
+          </button>
+          <button name="×" className="btn">
+            ×
+          </button>
 
-          <button className="btn">&#xb1;</button>
-          <button className="btn">0</button>
-          <button className="btn">,</button>
-          <button className="btn btn--big">=</button>
+          <button name="" className="btn">
+            4
+          </button>
+          <button name="" className="btn">
+            5
+          </button>
+          <button name="" className="btn">
+            6
+          </button>
+          <button name="-" className="btn">
+            −
+          </button>
+
+          <button name="" className="btn">
+            1
+          </button>
+          <button name="" className="btn">
+            2
+          </button>
+          <button name="" className="btn">
+            3
+          </button>
+          <button name="+" className="btn">
+            +
+          </button>
+
+          <button name="±" className="btn">
+            ±
+          </button>
+          <button name="" className="btn">
+            0
+          </button>
+          <button name="" className="btn">
+            ,
+          </button>
+          <button name="" className="btn btn--big">
+            =
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Calculator;
+export default Design;
