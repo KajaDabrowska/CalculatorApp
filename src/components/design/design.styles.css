@@ -39,6 +39,7 @@
 
 .window__current {
   font-size: 5.5rem;
+  min-height: 8.25rem;
 }
 
 .calc__btns {
@@ -59,7 +60,6 @@
 
   border-radius: 48%;
   border: none;
-  /* aspect-ratio: 1; */
   padding: 1.5rem 2.8rem;
 
   -webkit-box-shadow: 9px 8px 4px -8px rgba(255, 130, 12, 0.5),
@@ -73,4 +73,12 @@
 .btn:hover,
 .btn:focus {
   background-color: hsl(46, 137%, 61%);
+}
+
+.sm-pad {
+  padding: 1.5rem 2.5rem;
+}
+
+.tiny-pad {
+  padding: 1.5rem 2rem;
 }
