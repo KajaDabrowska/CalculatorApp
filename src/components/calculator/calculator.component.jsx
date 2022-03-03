@@ -5,45 +5,47 @@ import Result from "../result/result.component";
 import Keypad from "../keypad/keypad.component";
 
 const Calculator = () => {
-  // console.log("go");
-  const [result, setValue] = useState("");
-  // console.log(eval(result));
-  // console.log((eval(result) || "") + "");
-  // console.log(Function('"use strict";return (' + obj + ")")());
+  const [result, setResult] = useState("0");
 
   //   FUNCS
-  const reset = () => setValue("");
+  const reset = () => {
+    setResult("0");
+  };
 
-  const backspace = () => setValue(result.slice(0, -1));
+  const backspace = () => {
+    setResult(result.slice(0, -1));
+  };
 
   const calculate = () => {
-    //BUG
-    setValue((eval(result) || "") + "");
-    // try {
-    //   // setValue(eval(result));
-    // } catch (err) {
-    //   setValue("erro");
-    // }
-    console.log((eval(result) || "") + "");
+    try {
+      // eslint-disable-next-line
+      const value = (eval(result) || "0") + "";
+
+      setResult(value);
+    } catch (err) {
+      setResult("error");
+    }
   };
 
   const onClick = (button) => {
+    // IMPORTANT
+    // the whole bug was cause by not having else in front of if xD
+
     if (button === "=") {
-      //BUG
       calculate();
-      console.log(button);
-      console.log(result);
-    }
-    if (button === "C") {
+    } else if (button === "C") {
       reset();
-    }
-    if (button === "CE") {
+      console.log("C", result);
+    } else if (button === "CE") {
       backspace();
     } else {
-      setValue(result + button);
+      //TODO
+      //1. if result === 0 then change the zero into new value not add at the end
+      setResult(result + button);
     }
   };
 
+  console.log("RESULT FROM update: ", result);
   return (
     <div className="container">
       <div className="calculator">

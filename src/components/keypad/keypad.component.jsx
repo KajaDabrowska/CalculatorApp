@@ -28,7 +28,7 @@ const Keypad = ({ onClick }) => {
       >
         %
       </button>
-      <button name="÷" className="btn" onClick={(e) => onClick(e.target.name)}>
+      <button name="/" className="btn" onClick={(e) => onClick(e.target.name)}>
         ÷
       </button>
 
@@ -41,7 +41,7 @@ const Keypad = ({ onClick }) => {
       <button name="9" className="btn" onClick={(e) => onClick(e.target.name)}>
         9
       </button>
-      <button name="×" className="btn" onClick={(e) => onClick(e.target.name)}>
+      <button name="*" className="btn" onClick={(e) => onClick(e.target.name)}>
         ×
       </button>
 

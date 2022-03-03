@@ -1,5 +1,7 @@
 import React from "react";
 
+//TODO
+// make render not * but x and etc.
 const Result = ({ result }) => {
   return (
     <div className="calc__window">
