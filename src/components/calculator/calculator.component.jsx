@@ -5,11 +5,14 @@ import Result from "../result/result.component";
 import Keypad from "../keypad/keypad.component";
 
 const Calculator = () => {
-  const [result, setResult] = useState("0");
+  const [result, setResult] = useState("");
+  const [parenthesisIsOpen, setParenthesisOpen] = useState(false);
+
+  const toggleParenthesisIsOpen = () => setParenthesisOpen(!parenthesisIsOpen);
 
   //   FUNCS
   const reset = () => {
-    setResult("0");
+    setResult("");
   };
 
   const backspace = () => {
@@ -24,6 +27,7 @@ const Calculator = () => {
       setResult(value);
     } catch (err) {
       setResult("error");
+      console.error(err);
     }
   };
 
@@ -35,17 +39,21 @@ const Calculator = () => {
       calculate();
     } else if (button === "C") {
       reset();
-      console.log("C", result);
     } else if (button === "CE") {
       backspace();
+    } else if (button === "()") {
+      if (!parenthesisIsOpen) {
+        setResult(result + "(");
+        toggleParenthesisIsOpen();
+      } else {
+        setResult(result + ")");
+        toggleParenthesisIsOpen();
+      }
     } else {
-      //TODO
-      //1. if result === 0 then change the zero into new value not add at the end
       setResult(result + button);
     }
   };
 
-  console.log("RESULT FROM update: ", result);
   return (
     <div className="container">
       <div className="calculator">
