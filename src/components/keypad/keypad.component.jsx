@@ -1,6 +1,7 @@
 import React from "react";
 
 const Keypad = ({ onClick }) => {
+  // console.log("20÷1");
   return (
     <div className="calc__btns">
       <button
