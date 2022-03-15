@@ -50,19 +50,13 @@ const Calculator = () => {
       //set prev value
       setPrevValue(displayResult);
 
-      //TODO (rounding up etc)
       // eslint-disable-next-line
       const value = (eval(result) || "0") + "";
-      console.log(parseInt(value).toString() + (value % 1));
-      console.log(parseInt(value + (value % 1)));
-      // console.log(value.slice(2, 4));
 
-      console.log(value.valueOf());
-      console.log(parseInt(value).toFixed(3));
-      // console.log(parseInt(value).toFixed(6));
+      const valueShort = (+value).toFixed(3);
 
-      setResult(value);
-      setDisplayResult(value);
+      setResult(valueShort);
+      setDisplayResult(valueShort);
     } catch (err) {
       setResult("error");
       setDisplayResult("error");
