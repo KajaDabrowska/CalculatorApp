@@ -3,6 +3,24 @@
   /* --cl-body: 47, 100%, 67%; */
   --cl-body: 47, 100%, 72%;
   --cl-white: 44, 100%, 96%;
+
+  --cl-prev: 0, 0%, 50%;
+
+  --cl-btn: 47, 120%, 64%;
+  --cl-btn-hov: 46, 137%, 61%;
+  --cl-btn-shad: 255, 130, 12, 0.4;
+}
+
+.dark-mode {
+  --cl-dark: 126, 57%, 81%;
+  --cl-body: 0, 0%, 20%;
+  --cl-white: 0, 0%, 25%;
+
+  --cl-prev: 44, 0%, 78%;
+
+  --cl-btn: 0, 0%, 38%;
+  --cl-btn-hov: 0, 0%, 28%;
+  --cl-btn-shad: 0, 0, 0, 0.85;
 }
 
 .calculator {
@@ -16,9 +34,18 @@
   box-shadow: -9px 7px 7px 0px rgba(0, 0, 0, 0.8);
 }
 
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 3rem;
+}
+
 .calc__heading {
   font-size: 2rem;
-  margin-bottom: 3rem;
+  width: 100%;
+  margin-left: 1rem;
 }
 
 .calc__window {
@@ -36,7 +63,7 @@
 
 .window__previous {
   font-size: 1.5rem;
-  color: gray;
+  color: hsl(var(--cl-prev));
 }
 
 .window__current {
@@ -55,23 +82,20 @@
 .btn {
   cursor: pointer;
   font-size: 2rem;
-  background-color: hsl(47, 100%, 67%);
+  background-color: hsl(var(--cl-btn));
 
   border-radius: 48%;
   border: none;
-  padding: 1.5rem 2.8rem;
+  padding: 1.5rem 2rem;
 
-  -webkit-box-shadow: 9px 8px 4px -8px rgba(255, 130, 12, 0.5),
+  box-shadow: 9px 8px 4px -8px rgba(var(--cl-btn-shad)),
     8px 8px 5px -10px rgba(0, 0, 0, 0.75),
-    -12px -12px 3px -16px rgba(255, 255, 255, 0.76);
-  box-shadow: 9px 8px 4px -8px rgba(255, 130, 12, 0.5),
-    8px 8px 5px -10px rgba(0, 0, 0, 0.75),
-    -12px -13px 1px -16px rgba(255, 255, 255, 0.76);
+    -12px -13px 1px -16px rgba(255, 255, 255, 0.66);
 }
 
 .btn:hover,
 .btn:focus {
-  background-color: hsl(46, 137%, 61%);
+  background-color: hsl(var(--cl-btn-hov));
 }
 
 .sm-pad {
@@ -82,4 +106,40 @@
   padding: 1.5rem 1.8rem;
 }
 
-/*TODO night mode */
+.theme-toggle {
+  border: 1px solid red;
+  margin-left: auto;
+}
+
+.dark-toggle {
+  border: 0;
+  background-image: url(../../assets/dark-moon.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  width: 2rem;
+  height: 2rem;
+}
+.light-toggle {
+  border: 0;
+  background-image: url(../../assets/light-sun.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  width: 2rem;
+  height: 2rem;
+
+  filter: invert(89%) sepia(18%) saturate(522%) hue-rotate(69deg)
+    brightness(98%) contrast(89%);
+}
+
+.dark-mode .btn {
+  color: hsl(var(--cl-prev));
+  box-shadow: 9px 8px 4px -8px rgba(var(--cl-btn-shad)),
+    8px 8px 5px -10px rgba(0, 0, 0, 0.75);
+}
+
+.dark-mode .calculator {
+  box-shadow: inset 4px 4px 5px -2px rgb(255 255 255 / 26%),
+    inset -15px -13px 7px -11px rgb(255 255 255 / 40%);
+}

@@ -7,11 +7,15 @@ import Keypad from "../keypad/keypad.component";
 //TODO
 // make maximum width (lengts) of the calculation, otherwise the calculator will be wide af
 
+//BUG
+// now it always add zeros after "."
+
 const Calculator = () => {
   const [result, setResult] = useState("");
   const [displayResult, setDisplayResult] = useState("");
   const [prevValue, setPrevValue] = useState("previous");
   const [parenthesisIsOpen, setParenthesisOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(null);
 
   const toggleParenthesisIsOpen = () => setParenthesisOpen(!parenthesisIsOpen);
 
@@ -94,13 +98,35 @@ const Calculator = () => {
     }
   };
 
-  return (
-    <div className="container">
-      <div className="calculator">
-        <h1 className="calc__heading">Calculator</h1>
+  const themeToggle = () => {
+    setDarkMode((prev) => !prev);
+  };
 
-        <Result result={displayResult} prevValue={prevValue} />
-        <Keypad onClick={onClick} />
+  return (
+    <div className={`${darkMode ? "dark-mode" : "light-mode"}`}>
+      <div>
+        <div className="calculator">
+          <div className="container">
+            <h1 className="calc__heading">Calculator</h1>
+
+            {darkMode ? (
+              <button
+                className="theme-toggle light-toggle"
+                onClick={themeToggle}
+                aria-label="light mode toggle"
+              />
+            ) : (
+              <button
+                className="theme-toggle dark-toggle"
+                onClick={themeToggle}
+                aria-label="dark mode toggle"
+              />
+            )}
+          </div>
+
+          <Result result={displayResult} prevValue={prevValue} />
+          <Keypad onClick={onClick} />
+        </div>
       </div>
     </div>
   );
