@@ -7,14 +7,15 @@ import Keypad from "../keypad/keypad.component";
 //TODO
 // make maximum width (lengts) of the calculation, otherwise the calculator will be wide af
 
-//BUG
-// now it always add zeros after "."
+//TODO
+// make a wide mode?
 
 const Calculator = () => {
   const [result, setResult] = useState("");
   const [displayResult, setDisplayResult] = useState("");
   const [prevValue, setPrevValue] = useState("previous");
   const [parenthesisIsOpen, setParenthesisOpen] = useState(false);
+  const [isAlmostEqual, setisAlmostEqual] = useState(false);
   const [darkMode, setDarkMode] = useState(null);
 
   const toggleParenthesisIsOpen = () => setParenthesisOpen(!parenthesisIsOpen);
@@ -55,12 +56,19 @@ const Calculator = () => {
       setPrevValue(displayResult);
 
       // eslint-disable-next-line
-      const value = (eval(result) || "0") + "";
+      let value = (eval(result) || "0") + "";
 
-      const valueShort = (+value).toFixed(3);
+      // let shortValue = null;
+      // let shortValueWithSign = null;
 
-      setResult(valueShort);
-      setDisplayResult(valueShort);
+      if (value.includes(".")) {
+        setisAlmostEqual(true);
+        value = (+value).toFixed(3);
+        // shortValueWithSign = "≈" + shortValue;
+      }
+
+      setResult(value);
+      setDisplayResult(value);
     } catch (err) {
       setResult("error");
       setDisplayResult("error");
@@ -69,6 +77,8 @@ const Calculator = () => {
   };
 
   const onClick = (button) => {
+    setisAlmostEqual(false);
+
     //TODO what when someone clicks "=" when it's 0
     switch (button) {
       case "=":
@@ -124,7 +134,11 @@ const Calculator = () => {
             )}
           </div>
 
-          <Result result={displayResult} prevValue={prevValue} />
+          <Result
+            result={displayResult}
+            prevValue={prevValue}
+            isAlmostEqual={isAlmostEqual}
+          />
           <Keypad onClick={onClick} />
         </div>
       </div>
