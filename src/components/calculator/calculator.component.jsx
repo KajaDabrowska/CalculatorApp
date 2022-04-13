@@ -10,6 +10,9 @@ import Keypad from "../keypad/keypad.component";
 //TODO
 // make a wide mode?
 
+//TODO
+// darkMode with LocalStorage
+
 const Calculator = () => {
   const [result, setResult] = useState("");
   const [displayResult, setDisplayResult] = useState("");
@@ -19,13 +22,6 @@ const Calculator = () => {
   const [darkMode, setDarkMode] = useState(null);
 
   const toggleParenthesisIsOpen = () => setParenthesisOpen(!parenthesisIsOpen);
-
-  //   FUNCS
-
-  // const setResultAndDisplay = (mathRes, mathDis) => {
-  //   setResult(mathRes);
-  //   setDisplayResult(mathDis);
-  // };
 
   const reset = () => {
     setResult("");
@@ -50,25 +46,67 @@ const Calculator = () => {
     }
   };
 
+  const hasPercantage = () => {
+    console.log(result.includes("%"));
+    if (result.includes("%")) {
+      //replace the % with / 100
+      const fixedRes = result.replace("%", "/100");
+
+      return fixedRes;
+    } else return result;
+  };
+
+  const checkForZeros = (value) => {
+    if (value[0] === "0" && value[1] !== ".") {
+      if (value.includes(".")) {
+        const commaIndex = value.indexOf(".");
+
+        const newVal = value.slice(commaIndex - 1);
+
+        return newVal;
+      } else {
+        const newVal2 = value.slice(0, 1) + "." + value.slice(1);
+
+        return newVal2;
+      }
+    } else return value;
+  };
+
+  const roundUp = (value) => {
+    if (value.includes(".")) {
+      if (value.length > 4) {
+        setisAlmostEqual(true);
+        const rounded = (+value).toFixed(3);
+
+        return rounded;
+      } else if (value.length === 4) {
+        const rounded = (+value).toFixed(2);
+
+        return rounded;
+      }
+    } else return value;
+  };
+
   const calculate = () => {
     try {
       //set prev value
       setPrevValue(displayResult);
 
+      // Check if value has % in it
+      const percFixedValue = hasPercantage();
+
+      // Check if value has no zeros at beginning
+      const valueReadyForEval = checkForZeros(percFixedValue);
+
       // eslint-disable-next-line
-      let value = (eval(result) || "0") + "";
+      const value = (eval(valueReadyForEval) || "0") + "";
 
-      // let shortValue = null;
-      // let shortValueWithSign = null;
+      // Round up (Max 3 places after comma)
+      const rounded = roundUp(value);
 
-      if (value.includes(".")) {
-        setisAlmostEqual(true);
-        value = (+value).toFixed(3);
-        // shortValueWithSign = "≈" + shortValue;
-      }
-
-      setResult(value);
-      setDisplayResult(value);
+      console.log(rounded);
+      setResult(rounded);
+      setDisplayResult(rounded);
     } catch (err) {
       setResult("error");
       setDisplayResult("error");
@@ -76,10 +114,67 @@ const Calculator = () => {
     }
   };
 
+  const checkForDoubleSigns = (button) => {
+    const lastChar = result.slice(-1);
+    const lastCharNum = parseInt(result.slice(-1));
+
+    const aNumber = new RegExp(/[0-9]/);
+    const lastIsANum = aNumber.test(lastCharNum);
+    const btnSsANum = parseInt(button) ? true : false;
+
+    const signIsTheSameBtn = lastChar === button && !btnSsANum;
+    const hasDoubleS = !btnSsANum && !lastIsANum;
+
+    if (signIsTheSameBtn) {
+      return {
+        hasDoubleSign: true,
+        isSameButton: true,
+      };
+    } else if (hasDoubleS && lastChar !== "" && !signIsTheSameBtn) {
+      console.log("i work");
+      return {
+        hasDoubleSign: true,
+        isSameButton: false,
+      };
+    } else {
+      return {
+        hasDoubleSign: false,
+        isSameButton: false,
+      };
+    }
+  };
+
+  const checkSignAndDisplay = (button, isDivide, isMultiply) => {
+    const { hasDoubleSign, isSameButton } = checkForDoubleSigns(button);
+    console.log("RESULT", result);
+    console.log(`hasDoubleSign: ${hasDoubleSign}, 
+isSameButton: ${isSameButton}`);
+
+    if (hasDoubleSign && isSameButton) {
+      // Don't add the button again
+      setDisplayResult(displayResult);
+      setResult(result);
+    } else if (hasDoubleSign && !isSameButton) {
+      // Exchange last character for new sign
+      const resultWithoutLastChar = result.slice(0, -1);
+      const displayResultWithoutLastChar = displayResult.slice(0, -1);
+
+      setDisplayResult(displayResultWithoutLastChar + button);
+      setResult(resultWithoutLastChar + button);
+    } else if (!hasDoubleSign) {
+      if (isDivide || isMultiply) {
+        setDisplayResult(displayResult + (isDivide ? "÷" : "×"));
+        setResult(result + button);
+      } else {
+        setDisplayResult(displayResult + button);
+        setResult(result + button);
+      }
+    }
+  };
+
   const onClick = (button) => {
     setisAlmostEqual(false);
 
-    //TODO what when someone clicks "=" when it's 0
     switch (button) {
       case "=":
         calculate();
@@ -94,17 +189,15 @@ const Calculator = () => {
         parenthesisFunc();
         break;
       case "/":
-        setDisplayResult(displayResult + "÷");
-        setResult(result + button);
+        //maybe just do it in the check (the isMultiple etc)
+        checkSignAndDisplay(button, true);
         break;
       case "*":
-        setDisplayResult(displayResult + "×");
-        setResult(result + button);
+        checkSignAndDisplay(button, null, true);
         break;
 
       default:
-        setDisplayResult(displayResult + button);
-        setResult(result + button);
+        checkSignAndDisplay(button);
     }
   };
 

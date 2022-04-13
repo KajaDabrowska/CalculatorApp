@@ -99,9 +99,12 @@ html {
 }
 
 .design-by {
+  color: hsl(var(--cl-white));
   position: fixed;
   font-size: 2rem;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   padding-block: 1rem;
   /* margin-bottom: auto; */
   /* align-self: start; */
@@ -110,3 +113,8 @@ html {
 .design-by a {
   color: currentColor;
 }
+
+/*TODO dark mode upper in components so footer can have it */
+/* .dark-mode .design-by {
+  color: hsl(var(--cl-dark));
+} */
